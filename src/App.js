@@ -3,7 +3,8 @@ import './App.css';
 import MovieList from './MovieList';
 import SearchForm from './SearchForm';
 import GenreFilter from './GenreFilter';
-import { searchMovies, fetchGenres, browseMovies } from './MovieApi'; // list of all API service
+import { fetchGenres } from './MovieApi'; // list of all API service
+import ErrorMessage from './ErrorMessage';
 
 const App = () => {
     const [movies, setMovies] = useState([]);
@@ -23,41 +24,17 @@ const App = () => {
         fetchGenresData();
     }, []);
 
-    const handleSearch = async (query) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await searchMovies(query);
-            setMovies(data.results);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
 
-    const handleFilter = async (genreId, minRating) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await browseMovies(genreId, minRating);
-            setMovies(data.results);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <div className="App">
             <h1>Movie App</h1>
 
-            <SearchForm onSearch1={handleSearch} />
+            <SearchForm setMovies={setMovies} setLoading={setLoading} setError={setError} />
             
-            { genres.length > 0 && <GenreFilter genres={genres} onFilter={handleFilter} />}
+            { genres.length > 0 && <GenreFilter genres={genres} setMovies={setMovies} setLoading={setLoading} setError={setError}/>}
 
-            {error && <div>Error: {error}</div>}
+            {error && <ErrorMessage message={error} />}
             {loading ? (
                 <div>Loading...</div>
             ) : (

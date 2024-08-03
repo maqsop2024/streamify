@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
+import { browseMovies } from './MovieApi';
 
-const GenreFilter = ({ genres, onFilter }) => {
+const GenreFilter = ({ genres, setMovies, setLoading, setError }) => {
     const [selectedGenre, setSelectedGenre] = useState('');
     const [minRating, setMinRating] = useState(0);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
-        onFilter(selectedGenre, minRating);
+
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await browseMovies(selectedGenre, minRating);
+            setMovies(data.results);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+
     };
 
     return (

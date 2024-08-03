@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
+import { searchMovies } from './MovieApi';
 
-const SearchForm = ({ onSearch1 }) => {
+const SearchForm = ({ setMovies, setLoading, setError }) => {
     const [query, setQuery] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // onSearch(query);
-        onSearch1(query)
+        // onSearch1(query)
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await searchMovies(query);
+            setMovies(data.results);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
