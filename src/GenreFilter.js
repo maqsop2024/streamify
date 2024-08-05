@@ -21,7 +21,10 @@ const GenreFilter = ({ genres, setMovies, setLoading, setError }) => {
   };
 
   return (
+    
+    
     <form className="filter_form" onSubmit={handleSubmit}>
+      <p>Search By Genre and Rating</p>  
       <select
         value={selectedGenre}
         onChange={(e) => setSelectedGenre(e.target.value)}
@@ -33,14 +36,14 @@ const GenreFilter = ({ genres, setMovies, setLoading, setError }) => {
           </option>
         ))}
       </select>
-      <p>Select Rating</p>
+      <p>Enter Rating</p>
       <input
         type="number"
         placeholder="Min rating"
         value={minRating}
         onChange={(e) => setMinRating(e.target.value)}
       />
-      <button type="submit">Filter</button>
+      <button type="submit">Search</button>
     </form>
   );
 };
