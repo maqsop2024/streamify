@@ -10,7 +10,7 @@ const SearchForm = ({ setMovies, setLoading, setError }) => {
     setError(null);
     try {
       const data = await searchMovies(query);
-      setMovies(data.results);
+      setMovies(data.results);      
     } catch (error) {
       setError(error.message);
     } finally {
@@ -20,6 +20,7 @@ const SearchForm = ({ setMovies, setLoading, setError }) => {
 
   return (
     <form className="search_form" onSubmit={handleSubmit}>
+        <p>Search by Movie or Actor Name</p>
       <input
         type="text"
         placeholder="Search movies..."
